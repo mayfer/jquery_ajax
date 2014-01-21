@@ -1,17 +1,19 @@
-class Menu
+require_relative 'contact'
+require 'colorize'
+class Menu < Contact
 
-	# Prints the main menu
+  # Prints the main menu
   def show_main_menu
-    puts "------------MainMenu------------"
-    puts "--------------------------------"
-    puts " new      - Create a new contact"
-    puts " list     - List all contacts"
-    puts " show     - Display contact details"
-    puts " quit     - Terminate Program"
-    print "> "
+    puts "-------------MainMenu-------------".yellow.underline
+    puts "----What would you like to do?----".yellow
+    puts " New    - Create a new contact".green
+    puts " List   - List all contacts".green
+    puts " Show   - Display contact details".green
+    puts " Quit   - Terminate Program".green
+    print "> ".magenta
   end
 
-  # Handle menu choice
+  # Handle main menu choice
   def menu_choice(input)
     case input
     when "new"
@@ -19,37 +21,46 @@ class Menu
     when "list"
       list_contacts
     when "show"
-      find_contact_by_id
+      puts "Enter id: ".cyan
+      search = gets.chomp.to_i
+      find_contact_id(search)
     when "quit"
       quit_program
-    when "print"
-      puts "Email: #{@contacts[0][2]}"
+    when "colors"
+      puts "#{String.color_matrix}"
+      puts "#{String.modes}"
     else
-      puts "Please enter a valid command!"
+      puts "Please enter a valid command!".red
     end
   end
 
   # Prints the edit menu
   def show_edit_menu
-    puts "------------EditMenu------------"
-    puts "--------------------------------"
-    puts " edit     - Edit contact info"
-    puts " back     - Return to Main Menu"
-    puts " quit     - Terminate Program"
-    print "> "
+    puts "-------------EditMenu-------------".yellow.underline
+    puts "---What would you like to edit?---".yellow
+    puts " Name   - Edit contact name".green
+    puts " Phone  - Edit phone number(s)".green
+    puts " Email  - Edit contact email".green
+    puts " Delete - Delete contact".green
+    puts " Back   - Return to Main Menu".green
+    print "> ".magenta
   end
 
   # Handle edit menu choice
   def edit_menu_choice(input)
     case input
-    when "edit"
-      edit_contact_info
-    when "quit"
-      quit_program
+    when "name"
+      edit_name
+    when "email"
+      edit_email
+    when "phone"
+      add_phone
+    when "delete"
+      delete_contact
     when "back"
       return
     else
-      puts "Please enter a valid command!"
+      puts "Please enter a valid command!".red
     end
   end
 
