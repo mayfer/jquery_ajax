@@ -1,43 +1,52 @@
+# Contact.rb
 require 'colorize'
+
 class Contact
+
+  attr_accessor :first, :last, :email
+  @@contacts = []
   
-  attr_accessor :first_name
-  attr_accessor :last_name
-  attr_accessor :email
-  
-  def initialize(id, name, email)
+  def initialize(first, last, email)
+    @id = @@contacts.size
+    @first = first
+    @last = last
     @email = email
-    @name = name
-    @first_name = name.split.first
-    @last_name = name.split.last
-    @id = id
-  end
-  
-  # Return contact info as a hash
-  def to_hash
-    return {id: @id, fname: @first_name, lname: @last_name, email: @email}
   end
 
-  # Edit contact name
-  def edit_name
-    puts "First Name: ".colorize(:cyan)
-    @found_contact[:fname] = gets.chomp
-    puts "Last Name: ".colorize(:cyan)
-    @found_contact[:lname] = gets.chomp
-    puts "-------------Updated!-------------".colorize(:green)
+  def self.email_used?(email)
+    @@contacts.detect { |contact| email == contact.email }
   end
 
-  # Edit contact email
-  def edit_email
-    puts "Email: ".colorize(:cyan)
-    @found_contact[:email] = gets.chomp
-    puts "-------------Updated!-------------".colorize(:green)
+  def self.create(first, last, email)
+    @@contacts << new(first, last, email)
   end
 
-  # Delete contact
-  def delete_contact
-    @contacts.delete(@found_contact)
-    puts "-------------Deleted!-------------".colorize(:red)
+  def to_s
+    "ID: #{@id} | #{@first} #{@last} (#{@email})"
+  end
+
+  def display_contact(id)
+    puts "#{@@contacts[id.to_i]}".light_red
+  end
+
+  def display_contacts
+    @@contacts.each { |contact| puts "#{contact}".light_red }
+  end
+
+  def delete_contact(id)
+    @@contacts.delete(id)
+  end
+
+  def edit_name(id)
+    puts "Enter first name: "
+    @@contacts[id].first = user_input
+    puts "Enter last name: "
+    @@contacts[id].last = user_input
+  end
+
+  def edit_email(id)
+    puts "Enter email: "
+    @@contacts[id].email = user_input
   end
   
 end
