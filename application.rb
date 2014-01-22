@@ -1,11 +1,11 @@
-# Application.rb
+# Application
 require 'colorize'
 require_relative 'menu'
-
 class Application < Menu
+
+  @current_contact = nil
  
   def initialize
-    create_fictional_people
     @running = true
   end
 
@@ -16,36 +16,41 @@ class Application < Menu
     end
   end
 
-  def create_contact
-    first, last, email = create_contact_info
-    Contact.create(first, last, email)
+  def display_all_contacts
+    Contact.all.each { |c| puts "ID: #{c.id} #{c.first_name} #{c.last_name} (#{c.email})".magenta }
   end
 
-  def create_contact_info
-    puts "Email: ".cyan
-    email = user_input
-    unless Contact.email_used?(email)
-      first, last = get_name
-      [first, last, email]
-    else
-      puts "Email already in use!".red
+  def display_contact(c)
+    puts "ID: #{c.id} | #{c.first_name} #{c.last_name} (#{c.email})".magenta
+  end
+
+  def display_important
+    Contact.order(:importance).reverse.to_a.each do |c|
+      if (1..5).include?(c.importance)
+        puts "ID: #{c.id} | #{c.first_name} #{c.last_name} (#{c.email})".magenta
+      end
     end
   end
 
-  def get_name
+  def get_contact_info
     puts "First Name: ".cyan
     first = user_input
     puts "Last Name: ".cyan
     last = user_input
-    [first, last]
+    puts "Email: ".cyan
+    email = user_input
+    puts "Importance: ".cyan
+    importance = user_input.to_i
+    [first, last, email, importance]
   end
 
-  def create_fictional_people
-    Contact.create("Imaginary", "Excellent", "Excellent@email.com")
-    Contact.create("Invisible", "Speedy", "Speedy@another_email.com")
-    Contact.create("Not Real", "Wonderful", "Wonderful@making_up_emails.com")
-    Contact.create("Fictional", "Super", "Super@yet_another_email.com")
-    Contact.create("Hidden", "Fantastic", "Fantastic@omg_so_many_email_addresses.com")
+  def user_input
+    gets.chomp.strip
   end
- 
+
+  def find_contact
+    puts "Enter ID: ".cyan
+    @contact = Contact.find(user_input.to_i)
+  end
+
 end

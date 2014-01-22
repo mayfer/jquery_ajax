@@ -1,51 +1,36 @@
-# Contact.rb
+# Contact
 require 'colorize'
+require_relative 'database'
+class Contact < ActiveRecord::Base
 
-class Contact
-
-  attr_accessor :first, :last, :email
-  @@contacts = []
-  
-  def initialize(first, last, email)
-    @id = @@contacts.size
-    @first = first
-    @last = last
-    @email = email
+  def create_contact
+    first, last, email, importance = get_contact_info
+    Contact.create(first_name: first, last_name: last, email: email, importance: importance)
   end
 
-  def self.email_used?(email)
-    @@contacts.detect { |contact| email == contact.email }
+  def edit_name(contact)
+    puts "First Name: "
+    first_name = user_input
+    puts "Last Name: "
+    last_name = user_input
+    contact.update(first_name: first_name, last_name: last_name)
   end
 
-  def self.create(first, last, email)
-    @@contacts << new(first, last, email)
+  def edit_email(contact)
+    puts "Email: "
+    email = user_input
+    contact.update(email: email)
   end
 
-  def to_s
-    "ID: #{@id} | #{@first} #{@last} (#{@email})"
+  def edit_importance(contact)
+    puts "Importance: "
+    importance = user_input.to_i
+    contact.update(importance: importance)
   end
 
-  def display_contact(id)
-    puts "#{@@contacts[id.to_i]}".light_red
-  end
-
-  def display_contacts
-    @@contacts.each { |contact| puts "#{contact}".light_red }
-  end
-
-  def self.delete_contact(id)
-    @@contacts.delete(id)
-  end
-
-  def edit_name(id)
-    first, last = get_name
-    @@contacts[id].first = first
-    @@contacts[id].last = last
-  end
-
-  def edit_email(id)
-    puts "Enter email: "
-    @@contacts[id].email = user_input
+  def delete_contact(contact)
+    contact.destroy
+    puts "#{contact.first_name} #{contact.last_name} removed."
   end
   
 end
