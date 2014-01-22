@@ -16,41 +16,31 @@ class Application < Menu
     end
   end
 
-  def display_all_contacts
-    Contact.all.each { |c| puts "ID: #{c.id} #{c.first_name} #{c.last_name} (#{c.email})".magenta }
-  end
-
-  def display_contact(c)
-    puts "ID: #{c.id} | #{c.first_name} #{c.last_name} (#{c.email})".magenta
-  end
-
-  def display_important
-    Contact.order(:importance).reverse.to_a.each do |c|
-      if (1..5).include?(c.importance)
-        puts "ID: #{c.id} | #{c.first_name} #{c.last_name} (#{c.email})".magenta
-      end
-    end
-  end
-
-  def get_contact_info
-    puts "First Name: ".cyan
-    first = user_input
-    puts "Last Name: ".cyan
-    last = user_input
-    puts "Email: ".cyan
-    email = user_input
-    puts "Importance: ".cyan
-    importance = user_input.to_i
-    [first, last, email, importance]
-  end
-
   def user_input
     gets.chomp.strip
   end
 
+  # Helper methods
+  
   def find_contact
     puts "Enter ID: ".cyan
     @contact = Contact.find(user_input.to_i)
+  end
+
+  def validate_email(email)
+    Contact.all.each do |c|
+      email == c.email ? true : false
+    end
+  end
+
+  def search_contacts
+    puts "Find: "
+    search = user_input
+    Contact.find_each do |c|
+      if (c.first_name).include?search
+        put_contact_info(c)
+      end
+    end
   end
 
 end
