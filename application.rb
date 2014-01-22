@@ -5,11 +5,11 @@ require_relative 'menu'
 class Application < Menu
  
   def initialize
+    create_fictional_people
     @running = true
   end
 
   def run
-    create_fictional_people
     while @running
       show_main_menu
       menu_choice(user_input)
@@ -23,16 +23,21 @@ class Application < Menu
 
   def create_contact_info
     puts "Email: ".cyan
-    email = gets.chomp
+    email = user_input
     unless Contact.email_used?(email)
-      puts "First Name: ".cyan
-      first = gets.chomp
-      puts "Last Name: ".cyan
-      last = user_input
+      first, last = get_name
       [first, last, email]
     else
       puts "Email already in use!".red
     end
+  end
+
+  def get_name
+    puts "First Name: ".cyan
+    first = user_input
+    puts "Last Name: ".cyan
+    last = user_input
+    [first, last]
   end
 
   def create_fictional_people

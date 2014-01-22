@@ -33,15 +33,14 @@ class Contact
     @@contacts.each { |contact| puts "#{contact}".light_red }
   end
 
-  def delete_contact(id)
+  def self.delete_contact(id)
     @@contacts.delete(id)
   end
 
   def edit_name(id)
-    puts "Enter first name: "
-    @@contacts[id].first = user_input
-    puts "Enter last name: "
-    @@contacts[id].last = user_input
+    first, last = get_name
+    @@contacts[id].first = first
+    @@contacts[id].last = last
   end
 
   def edit_email(id)

@@ -5,9 +5,9 @@ require_relative 'contact'
 class Menu < Contact
 
   def show_main_menu
-    puts "----------------------------------".light_yellow
-    puts "-------------MainMenu-------------".light_blue
-    puts "----------------------------------".light_yellow
+    puts "-----------------------------------".light_yellow
+    puts "-------------Main Menu-------------".light_blue
+    puts "-----------------------------------".light_yellow
     puts " New    - Create new contact".green
     puts " List   - Display all contacts".green
     puts " Show   - Display individual contact".green
@@ -17,9 +17,9 @@ class Menu < Contact
   end
 
   def show_edit_menu
-    puts "----------------------------------".light_yellow
-    puts "-------------EditMenu-------------".light_blue
-    puts "----------------------------------".light_yellow
+    puts "-----------------------------------".light_yellow
+    puts "-------------Edit Menu-------------".light_blue
+    puts "-----------------------------------".light_yellow
     puts " Name   - Edit contact name".green
     puts " Email  - Edit contact email".green
     puts " Back   - Return to Main Menu".green
@@ -37,12 +37,12 @@ class Menu < Contact
       show_edit_menu
       edit_menu_choice(user_input)
     when "delete", "Delete"
-      delete_contact(id_input)
+      Contact.delete_contact(id_input)
     when "quit", "Quit", "q", "Q"
       puts "Goodbye!".magenta
       @running = false
     else
-      puts "Please enter a valid command!".red
+      puts "---Please enter a valid command!---".red
     end
   end
 
@@ -55,7 +55,7 @@ class Menu < Contact
     when "back", "Back"
       return
     else
-      puts "Please enter a valid command!".red
+      puts "---Please enter a valid command!---".red
     end
   end
 
