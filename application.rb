@@ -27,12 +27,6 @@ class Application < Menu
     @contact = Contact.find(user_input.to_i)
   end
 
-  def validate_email(email)
-    Contact.all.each do |c|
-      email == c.email ? true : false
-    end
-  end
-
   def search_contacts
     puts "Find: "
     search = user_input

@@ -3,13 +3,17 @@ require 'colorize'
 require_relative 'database'
 class Contact < ActiveRecord::Base
 
+  has_many :phone_number
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :email, uniqueness: true
+  validates :importance, numericality: { only_integer: true, greater_than: 0, less_than: 6 }
+
   def create_contact
     first, last, email, importance = get_contact_info
-    if validate_email(email)
-      puts "Email already in use!".red
-    else
-      Contact.create(first_name: first, last_name: last, email: email, importance: importance)
-    end
+    new_contact = Contact.create(first_name: first, last_name: last, email: email, importance: importance)
+    !new_contact.valid? ? (puts "Error(s): #{new_contact.errors.full_messages}".red) : (puts "Success: Contact created!".green)
   end
 
   def get_contact_info
@@ -34,9 +38,7 @@ class Contact < ActiveRecord::Base
 
   def display_important
     Contact.order(:importance).reverse_order.each do |c|
-      if (1..5).include?(c.importance)
-        put_contact_info(c)
-      end
+      (1..5).include?(c.importance) ? put_contact_info(c) : return
     end
   end
 
@@ -44,25 +46,25 @@ class Contact < ActiveRecord::Base
     puts "ID: #{c.id} | #{c.first_name} #{c.last_name} (#{c.email})".magenta
   end
 
-  def edit_name(contact)
+  def edit_name(c)
     puts "First Name: "
-    contact.update(first_name: user_input)
+    c.update(first_name: user_input)
     puts "Last Name: "
-    contact.update(last_name: user_input)
+    c.update(last_name: user_input)
   end
 
-  def edit_email(contact)
+  def edit_email(c)
     puts "Email: "
-    contact.update(email: user_input)
+    c.update(email: user_input)
   end
 
-  def edit_importance(contact)
+  def edit_importance(c)
     puts "Importance: "
-    contact.update(importance: user_input.to_i)
+    c.update(importance: user_input.to_i)
   end
 
-  def delete_contact(contact)
-    contact.destroy
+  def delete_contact(c)
+    c.destroy
   end
   
 end

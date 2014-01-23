@@ -4,9 +4,9 @@ require_relative 'contact'
 class Menu < Contact
 
   def show_main_menu
-    menu_lines
+    puts "---------------------------------------------".light_yellow
     puts "------------------Main Menu------------------".light_blue
-    menu_lines
+    puts "---------------------------------------------".light_yellow
     puts " New        - Create new contact".green
     puts " List       - Display all contacts".green
     puts " Show       - Display individual contact".green
@@ -17,10 +17,11 @@ class Menu < Contact
   end
 
   def show_edit_menu
-    menu_lines
+    puts "---------------------------------------------".light_yellow
     puts "------------------Edit Menu------------------".light_blue
-    menu_lines
+    puts "---------------------------------------------".light_yellow
     puts " Name       - Edit contact name".green
+    puts " Phone      - Add/Edit contact phone numbers".green
     puts " Email      - Edit contact email".green
     puts " Importance - Edit contact importance".green
     puts " Delete     - Delete contact".green
@@ -28,14 +29,9 @@ class Menu < Contact
     print "> ".magenta
   end
 
-  def menu_lines
-    puts "---------------------------------------------".light_yellow
-  end
-
   def menu_choice(input)
     case input
     when "new"
-      puts input
       create_contact
     when "list"
       display_all_contacts
@@ -64,6 +60,8 @@ class Menu < Contact
       edit_email(@contact)
     when "importance"
       edit_importance(@contact)
+    when "phone"
+      add_number(@contact)
     when "delete"
       delete_contact(@contact)
     when "back"
