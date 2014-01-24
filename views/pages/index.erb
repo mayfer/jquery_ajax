@@ -1,9 +1,22 @@
 <h1>My Contacts</h1>
+<%= @favorites %>
 <ul>
 <% @contacts.each do |contact| %>
   <li>
+    <a href="/favorite/<%= contact[:id] %>">
+        <span class='fav'>
+            <!-- if this contact's ID is in our array of favorites, show the filled out star -->
+            <!-- make sure to use to_s on the contact ID, since the favorite ID's from the cookie will be strings -->
+            <% if @favorites.include? contact[:id].to_s %>
+                ★
+            <% else %>
+            <!-- otherwise, show the empty star -->
+                ☆
+            <% end %>
+        </span>
+    </a>
     <a href="/pages/<%= contact[:id] %>/show">
-    	<p>Name: <%= contact[:first_name] %> <%= contact[:last_name] %></p>
+    	Name: <%= contact[:first_name] %> <%= contact[:last_name] %>
     </a>
   </li>
 <% end %>
