@@ -1,5 +1,7 @@
 <h1>New Contact</h1>
+
 <form action="/pages" method="post">
+
   <label for="contact_first_name">First Name:</label></br>
   <input id="contact_first_name" name="contact[first_name]" type="text" value="<%= @contact[:first_name] %>"/><br/>
 
@@ -10,7 +12,8 @@
   <input id="contact_email" name="contact[email]" type="text" value="<%= @contact[:email] %>"/><br/>
 
   <label for="contact_importance">Importance:</label></br>
-  <input id="contact_importance" name="contact[importance]" type="number" min="1" max="5" value="<% @contact[:importance] %>"></br>
+  <input id="contact_importance" name="contact[importance]" type="number" min="1" max="5" value="<%= @contact[:importance] %>"></br>
 
   <button type="submit" value="Create Contact"/>Create Contact</button>
+  
 </form> 

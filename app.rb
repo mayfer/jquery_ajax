@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'bundler/setup'
+
 require "sinatra"
 require "sinatra/activerecord"
 
@@ -25,17 +28,10 @@ end
 post "/pages" do
 	@contact = Contact.new(params[:contact])
 	if @contact.save
-		redirect "/pages/#{@contact[:id]}"
+		redirect "/pages/#{@contact[:id]}/show"
 	else
 		erb :"/pages/new"
 	end
-end
-
-# Show individual contact information
-get "/pages/:id/show" do
-	@contact = Contact.find(params[:id])
-	@title = @contact[:first_name]
-	erb :"pages/show"
 end
 
 # Edit contact
@@ -49,10 +45,17 @@ end
 post "/pages/:id" do
 	@contact = Contact.find(params[:id])
 	if @contact.update(params[:contact])
-		redirect "/pages/#{@contact[:id]}"
+		redirect "/pages/#{@contact[:id]}/show"
 	else
 		erb :"pages/edit"
 	end
+end
+
+# Show individual contact information
+get "/pages/:id/show" do
+	@contact = Contact.find(params[:id])
+	@title = @contact[:first_name]
+	erb :"pages/show"
 end
 
 # Destroy contact from database (kept in 'memory')
