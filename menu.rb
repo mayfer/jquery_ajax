@@ -1,9 +1,6 @@
-# Menu
-require 'colorize'
-require_relative 'contact'
-class Menu < Contact
+class Menu
 
-  def show_main_menu
+  def self.show_main_menu
     puts "---------------------------------------------".light_yellow
     puts "------------------Main Menu------------------".light_blue
     puts "---------------------------------------------".light_yellow
@@ -29,19 +26,19 @@ class Menu < Contact
     print "> ".magenta
   end
 
-  def menu_choice(input)
+  def self.menu_choice(input)
     case input
     when "new"
-      create_contact
+      Contact.create_contact
     when "list"
-      display_all_contacts
+      Contact.display_all_contacts
     when "show"
       find_contact
-      display_contact(@contact)
+      Contact.display_contact(@curent_contact)
       show_edit_menu
       edit_menu_choice(user_input)
     when "important"
-      display_important
+      Contact.display_important
     when "search"
       search_contacts
     when "quit", "q"
@@ -55,15 +52,15 @@ class Menu < Contact
   def edit_menu_choice(input)
     case input
     when "name"
-      edit_name(@contact)
+      Contact.edit_name(@curent_contact)
     when "email"
-      edit_email(@contact)
+      Contact.edit_email(@curent_contact)
     when "importance"
-      edit_importance(@contact)
+      Contact.edit_importance(@curent_contact)
     when "phone"
-      add_number(@contact)
+      Contact.add_number(@curent_contact)
     when "delete"
-      delete_contact(@contact)
+      Contact.delete_contact(@curent_contact)
     when "back"
       return
     else

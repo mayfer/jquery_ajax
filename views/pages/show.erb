@@ -1,0 +1,13 @@
+
+
+<a href="/pages/<%= @contact[:id] %>/edit"><button type='button'>Edit</button></a>
+
+<span><%= delete_contact_button(@contact[:id]) %><span>
+
+<h3>Name: <%= @contact[:first_name] %> <%= @contact[:last_name] %></h3>
+
+<h4>Email: <%= @contact[:email] %></h4>
+
+<h4>Importance: <%= @contact[:importance] %></h4>
+
+<h2>About: </h2>

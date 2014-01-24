@@ -1,9 +1,4 @@
-# Application
-require 'colorize'
-require_relative 'menu'
-class Application < Menu
-
-  @current_contact = nil
+class Application
  
   def initialize
     @running = true
@@ -11,8 +6,8 @@ class Application < Menu
 
   def run
     while @running
-      show_main_menu
-      menu_choice(user_input)
+      Menu.show_main_menu
+      Menu.menu_choice(user_input)
     end
   end
 
@@ -24,7 +19,7 @@ class Application < Menu
   
   def find_contact
     puts "Enter ID: ".cyan
-    @contact = Contact.find(user_input.to_i)
+    @curent_contact = Contact.find(user_input.to_i)
   end
 
   def search_contacts
