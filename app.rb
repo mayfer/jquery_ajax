@@ -28,7 +28,12 @@ get "/" do
 
     # send the array of contact id's into the erb template
     @favorites = contact_ids
-	erb :"pages/index"
+
+    if request.xhr?
+        @contacts.to_json
+    else
+        erb :"pages/index"
+    end
 end
 
 # Create contact
@@ -41,11 +46,23 @@ end
 # Check contact for validity
 post "/pages" do
 	@contact = Contact.new(params[:contact])
-	if @contact.save
-		redirect "/pages/#{@contact[:id]}/show"
-	else
-		erb :"/pages/new"
-	end
+
+    puts params[:contact].inspect
+
+    if request.xhr?
+        if @contact.save
+            @contact.to_json
+        else
+            status 406
+            @contact.errors.full_messages.to_json
+        end
+    else
+        if @contact.save
+            redirect "/pages/#{@contact[:id]}/show"
+        else
+            erb :"/pages/new"
+        end
+    end
 end
 
 # Edit contact

@@ -1,6 +1,49 @@
 <h1>New Contact</h1>
 
-<form action="/pages" method="post">
+<script>
+
+    $(document).ready(function() {
+
+        $('form button').click(function(event){
+            event.preventDefault();
+            
+            var form = $('form#new-contact')
+            var data = form.serialize();
+
+            $.post('/pages', data, function(response){
+
+                form.append("Contact created. <a href='/pages/"+response.id+"'>"+response.first_name+"</a>");
+                
+            }, "json" )
+            .fail(function(response) {
+                $.each(response.responseJSON, function(index, err) {
+                    form.append("<br />" +err);
+                });
+            });
+
+        });
+
+        /*
+        $.get('https://api.instagram.com/v1/media/popular?client_id=874effe4fcac4efeb30bf3f4f8dc848a', function(results){
+
+            $.each(results.data, function(index, item) {
+              console.log(item);
+                
+              var link = item.images.low_resolution.url;
+              $('form').append(
+                $('<img>').attr('src', link)
+              );
+                
+            });
+
+        }, 'jsonp');
+        */
+    });
+
+
+</script>
+
+<form action="/pages" method="post" id="new-contact">
 
   <label for="contact_first_name">First Name:</label></br>
   <input id="contact_first_name" name="contact[first_name]" type="text" value="<%= @contact[:first_name] %>"/><br/>
